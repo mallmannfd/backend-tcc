@@ -1,0 +1,477 @@
+[
+  {
+    "name": "produtos",
+    "isAbstract": true,
+    "hasChilds": true,
+    "discriminatorColumn": "status",
+    "discriminatorColumnValues": [
+      "fisico",
+      "digital"
+    ],
+    "discriminatorMapping": {
+        "fisico":  "produto_fisicos",
+        "digital": "produto_digitals"
+    },
+    "columns": [
+      {
+        "name": "id",
+        "type": "int",
+        "isPrimaryKey": true,
+        "isNotNull":  true,
+        "isUnique": true,
+        "isAutoIncrement": true,
+        "expression": null
+      },
+      {
+        "name": "nome",
+        "type": "varchar(255)",
+        "primaryKey": false,
+        "notNull":  true,
+        "unique": true,
+        "autoIncrement": false,
+        "expression": null
+      },
+      {
+        "name": "categoria_id",
+        "type": "int",
+        "primaryKey": false,
+        "notNull": true,
+        "unique": false,
+        "autoIncrement": false,
+        "expression": null
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp",
+        "primaryKey": false,
+        "notNull": true,
+        "unique": false,
+        "autoIncrement": false,
+        "expression": "DEFAULT CURRENT_TIMESTAMP()"
+      },
+      {
+        "name": "updated_at",
+        "type": "timestamp",
+        "primaryKey": false,
+        "notNull": false,
+        "unique": false,
+        "autoIncrement": false,
+        "expression": "ON UPDATE CURRENT_TIMESTAMP()"
+      },
+      {
+        "name": "deleted_at",
+        "type": "timestamp",
+        "primaryKey": false,
+        "notNull": false,
+        "unique": false,
+        "autoIncrement": false,
+        "expression": null
+      }
+    ],
+    "indexes": [
+      {
+        "fields": [
+          "id"
+        ],
+        "primaryKey": true,
+        "name": null,
+        "unique": false
+      }
+    ],
+    "relationships": [
+      {
+        "type": "belongsTo",
+        "column": "categoria_id",
+        "foreignTable": "produto_categorias",
+        "foreignColumn": "id"
+      }
+    ]
+  },
+  {
+    "name": "produto_digitals",
+    "isAbstract": false,
+    "hasChilds": false,
+    "columns": [
+      {
+        "name": "product_file",
+        "type": "text",
+        "isPrimaryKey": false,
+        "isNotNull":  true,
+        "isUnique": true,
+        "isAutoIncrement": false,
+        "expression": null
+      },
+      {
+        "name": "platform",
+        "type": "enum",
+        "enumValues": [
+          "windows",
+          "linux",
+          "mac",
+          "all"
+        ],
+        "isPrimaryKey": false,
+        "isNotNull": true,
+        "isUnique": false,
+        "isAutoIncrement": false,
+        "expression": "DEFAULT 'all'"
+      }
+    ],
+    "indexes": [
+      {
+        "fields": [
+          "id"
+        ],
+        "primaryKey": true,
+        "name": null,
+        "unique": false
+      }
+    ],
+    "relationships": [
+      {
+        "type": "isA",
+        "column": "",
+        "foreignTable": "produtos",
+        "foreignColumn": ""
+      }
+    ]
+  },
+  {
+    "name": "produto_fisicos",
+    "isAbstract": false,
+    "hasChilds": false,
+    "columns": [
+      {
+        "name": "peso",
+        "type": "float",
+        "isPrimaryKey": false,
+        "isNotNull":  true,
+        "isUnique": false,
+        "isAutoIncrement": false,
+        "expression": null
+      },
+      {
+        "name": "tamanho",
+        "type": "varchar(255)",
+        "isPrimaryKey": false,
+        "isNotNull":  true,
+        "isUnique": false,
+        "isAutoIncrement": false,
+        "expression": null
+      },
+      {
+        "name": "valor_frete",
+        "type": "float",
+        "isPrimaryKey": false,
+        "isNotNull":  true,
+        "isUnique": false,
+        "isAutoIncrement": false,
+        "expression": null
+      }
+    ],
+    "indexes": [
+      {
+        "fields": [
+          "id"
+        ],
+        "primaryKey": true,
+        "name": null,
+        "unique": false
+      }
+    ],
+    "relationships": [
+      {
+        "type": "isA",
+        "column": "",
+        "foreignTable": "produtos",
+        "foreignColumn": "status"
+      }
+    ]
+  },
+  {
+    "name": "produto_categorias",
+    "isAbstract": false,
+    "hasChilds": false,
+    "columns": [
+      {
+        "name": "id",
+        "type": "int",
+        "isPrimaryKey": true,
+        "isNotNull":  true,
+        "isUnique": true,
+        "isAutoIncrement": true,
+        "expression": null
+      },
+      {
+        "name": "nome",
+        "type": "varchar(255)",
+        "primaryKey": false,
+        "notNull":  true,
+        "unique": true,
+        "autoIncrement": false,
+        "expression": null
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp",
+        "primaryKey": false,
+        "notNull": true,
+        "unique": false,
+        "autoIncrement": false,
+        "expression": "DEFAULT CURRENT_TIMESTAMP()"
+      },
+      {
+        "name": "updated_at",
+        "type": "timestamp",
+        "primaryKey": false,
+        "notNull": false,
+        "unique": false,
+        "autoIncrement": false,
+        "expression": "ON UPDATE CURRENT_TIMESTAMP()"
+      },
+      {
+        "name": "deleted_at",
+        "type": "timestamp",
+        "primaryKey": false,
+        "notNull": false,
+        "unique": false,
+        "autoIncrement": false,
+        "expression": null
+      }
+    ],
+    "indexes": [
+      {
+        "fields": [
+          "id"
+        ],
+        "primaryKey": true,
+        "name": null,
+        "unique": false
+      }
+    ]
+  },
+  {
+    "name": "tamanhos",
+    "isAbstract": false,
+    "hasChilds": false,
+    "columns": [
+      {
+        "name": "id",
+        "type": "int",
+        "isPrimaryKey": true,
+        "isNotNull":  true,
+        "isUnique": true,
+        "isAutoIncrement": true,
+        "expression": null
+      },
+      {
+        "name": "nome",
+        "type": "varchar(255)",
+        "primaryKey": false,
+        "notNull":  true,
+        "unique": true,
+        "autoIncrement": false,
+        "expression": null
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp",
+        "primaryKey": false,
+        "notNull": true,
+        "unique": false,
+        "autoIncrement": false,
+        "expression": "DEFAULT CURRENT_TIMESTAMP()"
+      },
+      {
+        "name": "updated_at",
+        "type": "timestamp",
+        "primaryKey": false,
+        "notNull": false,
+        "unique": false,
+        "autoIncrement": false,
+        "expression": "ON UPDATE CURRENT_TIMESTAMP()"
+      },
+      {
+        "name": "deleted_at",
+        "type": "timestamp",
+        "primaryKey": false,
+        "notNull": false,
+        "unique": false,
+        "autoIncrement": false,
+        "expression": null
+      }
+    ],
+    "indexes": [
+      {
+        "fields": [
+          "id"
+        ],
+        "primaryKey": true,
+        "name": null,
+        "unique": false
+      }
+    ]
+  },
+  {
+    "name": "tamanhos_produtos",
+    "isAbstract": false,
+    "hasChilds": false,
+    "columns": [
+      {
+        "name": "produto_id",
+        "type": "int",
+        "isPrimaryKey": true,
+        "isNotNull":  true,
+        "isUnique": true,
+        "isAutoIncrement": false,
+        "expression": null
+      },
+      {
+        "name": "tamanho_id",
+        "type": "int",
+        "isPrimaryKey": true,
+        "isNotNull":  true,
+        "isUnique": true,
+        "isAutoIncrement": false,
+        "expression": null
+      }
+    ],
+    "indexes": [
+      {
+        "fields": [
+          "produto_id",
+          "tamanho_id"
+        ],
+        "primaryKey": true,
+        "name": null,
+        "unique": false
+      }
+    ],
+    "relationships": [
+      {
+        "type": "belongsTo",
+        "column": "produto_id",
+        "foreignTable": "produtos",
+        "foreignColumn": "id"
+      },
+      {
+        "type": "belongsTo",
+        "column": "tamanho_id",
+        "foreignTable": "tamanhos",
+        "foreignColumn": "id"
+      }
+    ]
+  },
+  {
+    "name": "imagems",
+    "isAbstract": false,
+    "hasChilds": false,
+    "columns": [
+      {
+        "name": "id",
+        "type": "int",
+        "isPrimaryKey": true,
+        "isNotNull":  true,
+        "isUnique": true,
+        "isAutoIncrement": false,
+        "expression": null
+      },
+      {
+        "name": "caminho",
+        "type": "varchar(255)",
+        "primaryKey": false,
+        "notNull":  true,
+        "unique": true,
+        "autoIncrement": false,
+        "expression": null
+      },
+      {
+        "name": "created_at",
+        "type": "timestamp",
+        "primaryKey": false,
+        "notNull": true,
+        "unique": false,
+        "autoIncrement": false,
+        "expression": "DEFAULT CURRENT_TIMESTAMP()"
+      },
+      {
+        "name": "updated_at",
+        "type": "timestamp",
+        "primaryKey": false,
+        "notNull": false,
+        "unique": false,
+        "autoIncrement": false,
+        "expression": "ON UPDATE CURRENT_TIMESTAMP()"
+      }
+    ],
+    "indexes": [
+      {
+        "fields": [
+          "id"
+        ],
+        "primaryKey": true,
+        "name": null,
+        "unique": false
+      }
+    ]
+  },
+  {
+    "name": "produtos_imagems",
+    "isAbstract": false,
+    "hasChilds": false,
+    "columns": [
+      {
+        "name": "produto_id",
+        "type": "int",
+        "isPrimaryKey": true,
+        "isNotNull":  true,
+        "isUnique": true,
+        "isAutoIncrement": false,
+        "expression": null
+      },
+      {
+        "name": "imagem_id",
+        "type": "int",
+        "isPrimaryKey": true,
+        "isNotNull":  true,
+        "isUnique": true,
+        "isAutoIncrement": false,
+        "expression": null
+      },
+      {
+        "name": "imagem_principal",
+        "type": "boolean",
+        "isPrimaryKey": false,
+        "isNotNull":  true,
+        "isUnique": false,
+        "isAutoIncrement": false,
+        "expression": "DEFAULT false"
+      }
+    ],
+    "indexes": [
+      {
+        "fields": [
+          "produto_id",
+          "imagem_id"
+        ],
+        "primaryKey": true,
+        "name": null,
+        "unique": false
+      }
+    ],
+    "relationships": [
+      {
+        "type": "belongsTo",
+        "column": "produto_id",
+        "foreignTable": "produtos",
+        "foreignColumn": "id"
+      },
+      {
+        "type": "belongsTo",
+        "column": "imagem_id",
+        "foreignTable": "imagems",
+        "foreignColumn": "id"
+      }
+    ]
+  }
+]

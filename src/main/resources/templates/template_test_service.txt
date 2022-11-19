@@ -1,0 +1,182 @@
+package com.company.demo.service;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Random;
+import java.util.UUID;
+
+import javax.transaction.Transactional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.test.context.ActiveProfiles;
+
+import {app_pkg}.model.{model_name};
+import {app_pkg}.util.ContextUtil;
+import {app_pkg}.util.RuleException;
+import {app_pkg}.util.i18n.MessageFactory;
+import {app_pkg}.util.i18n.Messages;
+
+@ActiveProfiles(profiles = "test")
+@SpringBootTest
+@ExtendWith(MockitoExtension.class)
+@Transactional
+class {model_name}ServiceTest {
+
+    @Autowired
+    ApplicationContext context;
+
+    @Autowired
+    {model_name}Service service;
+
+    static final {id_type} ID_EXAMPLE = {id_example};
+
+    @BeforeEach
+    void init() {
+        ContextUtil.setContext(context);
+    }
+
+    private {model_name} newTestObject() {
+        var pojo = new {model_name}();{test_obj}
+        return pojo;
+    }
+
+    @Test
+    void save() {
+        var pojo = this.newTestObject();
+        pojo = this.service.save(pojo);
+        assertNotNull(pojo.getId());
+    }
+
+    @Test
+    void softDelete() {
+        var pojo = this.newTestObject();
+        pojo = this.service.save(pojo);
+        this.service.softDelete(pojo.getId());
+        assertTrue(this.service.findAllDeleted().contains(pojo));
+        assertFalse(this.service.findAll().contains(pojo));
+    }
+
+    @Test
+    void softDeleteNotFound() {
+        var exec = (Executable) () -> this.service.softDelete(ID_EXAMPLE);
+        var exception = assertThrows(RuleException.class, exec);
+        var expected = MessageFactory.getMessage(Messages.RECORD_NOT_FOUND);
+        assertEquals(expected, exception.getMessage());
+    }
+
+    @Test
+    void restoreDeleted() {
+        var pojo = this.newTestObject();
+        pojo = this.service.save(pojo);
+        var id = pojo.getId();
+        this.service.softDelete(id);
+        this.service.restoreDeleted(id);
+        assertNotNull(this.service.findById(id));
+    }
+
+    @Test
+    void restoreDeletedNotFound() {
+        var exec = (Executable) () -> this.service.restoreDeleted(ID_EXAMPLE);
+        var exception = assertThrows(RuleException.class, exec);
+        var expected = MessageFactory.getMessage(Messages.DELETED_RECORD_NOT_FOUND);
+        assertEquals(expected, exception.getMessage());
+    }
+
+    @Test
+    void permanentDestroy() {
+        var pojo = this.newTestObject();
+        pojo = this.service.save(pojo);
+        var id = pojo.getId();
+        this.service.softDelete(id);
+        this.service.permanentDestroy(id);
+        var exec = (Executable) () -> this.service.findDeletedById(ID_EXAMPLE);
+        var exception = assertThrows(RuleException.class, exec);
+        var expected = MessageFactory.getMessage(Messages.DELETED_RECORD_NOT_FOUND);
+        assertEquals(expected, exception.getMessage());
+    }
+
+    @Test
+    void permanentDestroyNotFound() {
+        var exec = (Executable) () -> this.service.permanentDestroy(ID_EXAMPLE);
+        var exception = assertThrows(RuleException.class, exec);
+        var expected = MessageFactory.getMessage(Messages.DELETED_RECORD_NOT_FOUND);
+        assertEquals(expected, exception.getMessage());
+    }
+
+    @Test
+    void findAllPaged() {
+        var list = this.service.findAll(null, PageRequest.of(0, 1));
+        assertNotNull(list);
+        assertNotNull(list.getContent());
+    }
+
+    @Test
+    void findAllDeletedPaged() {
+        var list = this.service.findAllDeleted(null, PageRequest.of(0, 1));
+        assertNotNull(list);
+        assertNotNull(list.getContent());
+    }
+
+    @Test
+    void findAll() {
+        var list = this.service.findAll();
+        assertNotNull(list);
+    }
+
+    @Test
+    void findAllDeleted() {
+        var list = this.service.findAllDeleted();
+        assertNotNull(list);
+    }
+
+    @Test
+    void findById() {
+        var pojo = this.newTestObject();
+        pojo = this.service.save(pojo);
+        var id = pojo.getId();
+        assertNotNull(this.service.findById(id));
+    }
+
+    @Test
+    void findByIdNotFound() {
+        var exec = (Executable) () -> this.service.findById(ID_EXAMPLE);
+        var exception = assertThrows(RuleException.class, exec);
+        var expected = MessageFactory.getMessage(Messages.RECORD_NOT_FOUND);
+        assertEquals(expected, exception.getMessage());
+    }
+
+    @Test
+    void findDeletedById() {
+        var pojo = this.newTestObject();
+        pojo = this.service.save(pojo);
+        var id = pojo.getId();
+        this.service.softDelete(id);
+        assertNotNull(this.service.findDeletedById(id));
+    }
+
+    @Test
+    void findDeletedByIdNotFound() {
+        var exec = (Executable) () -> this.service.findDeletedById(ID_EXAMPLE);
+        var exception = assertThrows(RuleException.class, exec);
+        var expected = MessageFactory.getMessage(Messages.DELETED_RECORD_NOT_FOUND);
+        assertEquals(expected, exception.getMessage());
+    }
+
+    @Test
+    void findByIds() {
+        var list = this.service.findByIds({id_example});
+        assertNotNull(list);
+    }
+}

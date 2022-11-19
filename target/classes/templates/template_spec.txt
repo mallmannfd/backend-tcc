@@ -1,0 +1,22 @@
+package {app_pkg}.spec;
+
+import org.springframework.data.jpa.domain.Specification;
+
+import {app_pkg}.model.{model_name};
+import {app_pkg}.util.SpecUtil;
+
+public class {model_name}Spec {
+
+    private {model_name}Spec() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    public static Specification<{model_name}> byDeleted(Boolean deleted) {
+        return (root, query, builder) -> SpecUtil.isDeleted(builder, root, deleted);
+    }
+
+    public static Specification<{model_name}> byFilter(String filter) {
+        String[] columns = { {columns} };
+        return (root, query, builder) -> SpecUtil.byFilter(builder, root, filter, columns);
+    }
+}

@@ -1,0 +1,10 @@
+package {app_pkg}.repository;
+
+import org.springframework.stereotype.Repository;
+
+import {app_pkg}.util.BaseRepository;
+import {app_pkg}.model.{model_name};
+
+@Repository
+public interface {model_name}Repository extends BaseRepository<{model_name}, {id_type}> {
+}

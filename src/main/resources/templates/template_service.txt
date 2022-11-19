@@ -1,0 +1,80 @@
+package {app_pkg}.service;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+
+import {app_pkg}.model.{model_name};
+import {app_pkg}.repository.{model_name}Repository;
+import {app_pkg}.util.RuleException;
+import {app_pkg}.util.i18n.Messages;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+@Service
+public class {model_name}Service {
+
+    private final {model_name}Repository repository;
+
+    public {model_name} save({model_name} pojo) {
+        return this.repository.save(pojo);
+    }
+
+    public void softDelete({id_type} id) {
+        if (this.repository.findById(id).isEmpty())
+            throw new RuleException(Messages.RECORD_NOT_FOUND);
+        this.repository.softDelete(id);
+    }
+
+    public void restoreDeleted({id_type} id) {
+        if (this.repository.findDeletedById(id).isEmpty())
+            throw new RuleException(Messages.DELETED_RECORD_NOT_FOUND);
+        this.repository.restoreDeleted(id);
+    }
+
+    public void permanentDestroy({id_type} id) {
+        if (this.repository.findDeletedById(id).isEmpty())
+            throw new RuleException(Messages.DELETED_RECORD_NOT_FOUND);
+        this.repository.deleteById(id);
+    }
+
+    public Page<{model_name}> findAll(Specification<{model_name}> spec, Pageable pageable, Boolean deleted) {
+        spec = {model_name}Spec.byDeleted(deleted).and(spec);
+        return this.repository.findAll(spec, pageable);
+    }
+
+    public Page<{model_name}> findAll(Specification<{model_name}> spec, Pageable pageable) {
+        return this.findAll(spec, pageable, false);
+    }
+
+    public Page<{model_name}> findAllDeleted(Specification<{model_name}> spec, Pageable pageable) {
+        return this.findAll(spec, pageable, true);
+    }
+
+    public List<{model_name}> findAll() {
+        return this.repository.findAll();
+    }
+
+    public List<{model_name}> findAllDeleted() {
+        return this.repository.findAllDeleted();
+    }
+
+    public {model_name} findById({id_type} id) {
+        return this.repository.findById(id).orElseThrow(() -> new RuleException(Messages.RECORD_NOT_FOUND));
+    }
+
+    public {model_name} findDeletedById({id_type} id) {
+        return this.repository.findDeletedById(id)
+                .orElseThrow(() -> new RuleException(Messages.DELETED_RECORD_NOT_FOUND));
+    }
+
+    public List<{model_name}> findByIds({id_type}... ids) {
+        return this.repository.findAllById(Arrays.asList(ids));
+    }
+}

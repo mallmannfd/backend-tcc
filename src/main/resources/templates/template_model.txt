@@ -1,0 +1,34 @@
+package {app_pkg}.model;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+
+import javax.persistence.*;
+
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
+import com.company.demo.util.BaseEntity;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
+@Entity
+@Table(name = "{table_name}"){inheritance}
+@BatchSize(size = 50)
+@DynamicInsert
+@DynamicUpdate
+public {abstract}class {model_name} extends {super} {
+
+    private static final long serialVersionUID = 1L;
+{fields}
+}

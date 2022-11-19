@@ -1,0 +1,5 @@
+package {app_pkg}.domain;
+
+public enum {enum_name}Enum {
+    {values};
+}
