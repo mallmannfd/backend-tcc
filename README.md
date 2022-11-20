@@ -153,7 +153,7 @@ Importe este projeto no intellij.
 
 É importante configurar o intellij para fazer imports de forma automática para gerar os imports dentro do projeto, essa configuração é feita conforme imagem abaixo:
 
-<img src="imgs_readme/auto_import.png" width="100%" />
+<img src="imgs_readme/auto_import.jpeg" width="100%" />
 
 Caso continue sem importar de forma automática, basta aperta ALT + Enter nos pontos que a IDE apontar como vermelho e selecionar a opção "Import Class".
 
