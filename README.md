@@ -13,7 +13,7 @@ Clone este repositório e abra-o através do IntelliJ.
 
 Após a importação do projeto dentro da IDE, procure pela classe ``SpringGeneratorApplication`` e faça o build do projeto através do botão verde ao lado esquerdo do código conforme imagem abaixo:
 
-[imagem da classe SpringGeneratorApplication]
+<img src="imgs_readme/SpringGeneratorClass.png" width="100%" />
 
 ## Utilização
 
@@ -146,16 +146,17 @@ export interface EntityData {
 
 O que irá gerar um arquivo para download conforme na imagem abaixo:
 
-[imagem para downlaod do projeto gerado]
+<img src="imgs_readme/requestparagerarprojeto.png" width="100%" />
+<img src="imgs_readme/ResponseParaDownload.png" width="100%" />
 
 Importe este projeto no intellij. 
 
 É importante configurar o intellij para fazer imports de forma automática para gerar os imports dentro do projeto, essa configuração é feita conforme imagem abaixo:
 
-[opcao para gerar imports automáticos no intellij]
+<img src="imgs_readme/auto_import.png" width="100%" />
 
 Caso continue sem importar de forma automática, basta aperta ALT + Enter nos pontos que a IDE apontar como vermelho e selecionar a opção "Import Class".
 
 Após resolver os imports, basta executar o projeto através classe ``DemoApplication`` e com isso, você já pode explorar a API gerada pela aplicação na porta 8081, através do link ``http://localhost:8081/swagger-ui/index.html``
 
-[imagem projeto gerado swagger]
+<img src="imgs_readme/projeto_gerado.png" width="100%" />
